@@ -25,8 +25,11 @@ ActiveRecord::Base.configurations[:test] = {
  
 begin
   uri = URI.parse(ENV["DATABASE_URL"])
+  adapter = uri.scheme
+  adapter = "postgresql" if adapter == "postgres"
+
   ActiveRecord::Base.configurations[:production] = {
-    :adapter  => 'postgresql',
+    :adapter  => adapter,
     :database => (uri.path || "").split("/")[1],
     :username => uri.user,
     :password => uri.password,

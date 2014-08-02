@@ -1,5 +1,3 @@
-require 'uri'
-
 ##
 # You can use other adapters like:
 #
@@ -15,55 +13,22 @@ require 'uri'
 #     :socket    => '/tmp/mysql.sock'
 #   }
 #
-
-
-
 ActiveRecord::Base.configurations[:test] = {
+  :adapter   => 'postgresql',
+  :encoding  => 'utf8',
+  :database  => 'travwah_test',
+  :pool      => 5,
+  :username  => 'postgres',
+  :password  => ''
+}
+ActiveRecord::Base.configurations[:production] = {
     :adapter   => 'postgresql',
     :encoding  => 'utf8',
-    :database  => 'travwah_test',
+    :database  => 'travwah_production',
     :pool      => 5,
     :username  => 'postgres',
     :password  => ''
 }
-
-
-ActiveRecord::Base.configurations[:development] = {
-  :adapter   => 'postgresql',
-  :database  => 'travwah_development',
-  :username  => 'postgres',
-  :password  => 'postgres',
-  :host      => 'localhost',
-  :port      => 5432
-
-}
-
-
-begin
-  uri = URI.parse(ENV["DATABASE_URL"])
-  ActiveRecord::Base.configurations[:production] = {
-    :adapter  => 'postgresql',
-    :database => (uri.path || "").split("/")[1],
-    :username => uri.user,
-    :password => uri.password,
-    :host     => uri.host,
-    :port     => uri.port
-  }
-rescue URI::InvalidURIError
-  puts "no ENV[DATABASE_URL]"
-
-  ActiveRecord::Base.configurations[:production] = {
-      :adapter   => 'postgresql',
-      :encoding  => 'utf8',
-      :database  =>  ENV["PG_DATABASE"],
-      :pool      => 5,
-      :username  => ENV["PG_USER"],
-      :password  => ENV["PG_PASSWORD"],
-      :host      => ENV["PG_HOST"],
-      :port      => ENV["PG_PORT"]
-  }
-end
-
 
 # Setup our logger
 ActiveRecord::Base.logger = logger

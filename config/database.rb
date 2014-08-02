@@ -21,14 +21,32 @@ ActiveRecord::Base.configurations[:test] = {
   :username  => 'postgres',
   :password  => ''
 }
-ActiveRecord::Base.configurations[:production] = {
-    :adapter   => 'postgresql',
-    :encoding  => 'utf8',
-    :database  => 'travwah_production',
-    :pool      => 5,
-    :username  => 'postgres',
-    :password  => ''
-}
+
+ 
+begin
+  uri = URI.parse(ENV["DATABASE_URL"])
+  ActiveRecord::Base.configurations[:production] = {
+    :adapter  => 'postgresql',
+    :database => (uri.path || "").split("/")[1],
+    :username => uri.user,
+    :password => uri.password,
+    :host     => uri.host,
+    :port     => uri.port
+  }
+rescue URI::InvalidURIError
+  puts "no ENV[DATABASE_URL] try ENV[PG_USER] etc"
+ 
+  ActiveRecord::Base.configurations[:production] = {
+      :adapter   => 'postgresql',
+      :encoding  => 'utf8',
+      :database  =>  ENV["PG_DATABASE"],
+      :pool      => 5,
+      :username  => ENV["PG_USER"],
+      :password  => ENV["PG_PASSWORD"],
+      :host      => ENV["PG_HOST"],
+      :port      => ENV["PG_PORT"]
+  }
+end
 
 # Setup our logger
 ActiveRecord::Base.logger = logger

@@ -21,7 +21,7 @@ require 'uri'
 ActiveRecord::Base.configurations[:test] = {
     :adapter   => 'postgresql',
     :encoding  => 'utf8',
-    :database  => 'copypadsag_test',
+    :database  => 'travwah_test',
     :pool      => 5,
     :username  => 'postgres',
     :password  => ''
@@ -30,7 +30,7 @@ ActiveRecord::Base.configurations[:test] = {
 
 ActiveRecord::Base.configurations[:development] = {
   :adapter   => 'postgresql',
-  :database  => 'test_blog_development',
+  :database  => 'travwah_development',
   :username  => 'postgres',
   :password  => 'postgres',
   :host      => 'localhost',

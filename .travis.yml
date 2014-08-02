@@ -2,7 +2,6 @@ language: ruby
 rvm:
 - 2.1.2
 before_install:
-# travis default is currently 10.2.2
 - gem install rake
 - gem install padrino
 before_script:
@@ -12,3 +11,10 @@ before_script:
 script:
 - bundle exec rspec
 - git branch
+deploy:
+  provider: heroku
+  api_key:
+    secure: AaiqoxYRU0/SZqhvaK5hsl81BQ0zzZnphZLcasOpCJAWSsSLp6m2r/W/1t3HY2VUY6HUr66k2kPHsKX9AUfWb3mKpCJcX7m2XRUyTA5EHyogzAkjGzP2frPvl4SgpPQT2xqXecQt1s8MCRcmCBTga8IywlEgGFWvkpYEay2uOqY=
+  app: calm-sierra-4361
+  on:
+    repo: apelade/travwah

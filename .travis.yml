@@ -1,0 +1,14 @@
+language: ruby
+rvm:
+- 2.1.2
+before_install:
+# travis default is currently 10.2.2
+- gem install rake
+- gem install padrino
+before_script:
+- padrino rake ar:create
+- padrino rake ar:migrate
+- padrino rake seed
+script:
+- bundle exec rspec
+- git branch
